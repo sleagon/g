@@ -90,3 +90,11 @@ func TestMinValueBy(t *testing.T) {
 
 	is.Equal(1, MinValueBy(map[string]int{"a": 1, "aa": 2}, func(v1 int, v2 int) bool { return v1 < v2 }))
 }
+
+func TestPutAll(t *testing.T) {
+	is := assert.New(t)
+
+	m := map[string]int{"a": 1, "b": 2}
+	PutAll(m, map[string]int{"c": 3, "d": 4})
+	is.Equal(map[string]int{"a": 1, "b": 2, "c": 3, "d": 4}, m)
+}

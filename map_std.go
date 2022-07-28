@@ -148,3 +148,11 @@ func MinKeyBy[K comparable, V any](values map[K]V, less func(K, K) bool) K {
 	}
 	return result
 }
+
+// PutAll add all elements to exist map, if the key is already exists, the value will be overridden.
+func PutAll[K comparable, V any](target map[K]V, elements map[K]V) map[K]V {
+	for k, v := range elements {
+		target[k] = v
+	}
+	return target
+}
