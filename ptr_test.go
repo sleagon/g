@@ -32,3 +32,18 @@ func TestValueOf(t *testing.T) {
 		is.True(0 == ValueOf(pv))
 	}
 }
+
+func TestPtr(t *testing.T) {
+	is := assert.New(t)
+	// *int
+	{
+		value := 1
+		is.Equal(1, *Ptr(value))
+	}
+
+	// *string
+	{
+		value := "v"
+		is.Equal("v", *Ptr(value))
+	}
+}

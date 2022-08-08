@@ -8,3 +8,8 @@ func ValueOf[T any](ptr *T) T {
 	}
 	return *ptr
 }
+
+// Ptr returns the pointer of the given value, Ptr will panic if v is nil.
+func Ptr[T any](v T) *T {
+	return &v
+}
