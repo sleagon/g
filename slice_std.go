@@ -150,3 +150,23 @@ func Reverse[T any](values []T) []T {
 	}
 	return values
 }
+
+// AssertSlice assert interface list to target type, panic if elements of values are not T.
+func AssertSlice[T any](values []any) []T {
+	result := make([]T, len(values))
+	for i, v := range values {
+		result[i] = v.(T)
+	}
+
+	return result
+}
+
+// AnySlice convert []T to []interface{}/[]any.
+func AnySlice[T any](values []T) []any {
+	result := make([]any, len(values))
+	for i, v := range values {
+		result[i] = v
+	}
+
+	return result
+}

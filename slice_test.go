@@ -119,3 +119,17 @@ func TestReverse(t *testing.T) {
 
 	is.ElementsMatch([]int{3, 2, 1}, Reverse([]int{1, 2, 3}))
 }
+
+func TestAssertSlice(t *testing.T) {
+	is := assert.New(t)
+
+	values := []interface{}{1, 2, 3}
+
+	typedValues := AssertSlice[int](values)
+
+	is.ElementsMatch([]int{1, 2, 3}, typedValues)
+
+	anySlice := AnySlice(typedValues)
+
+	is.ElementsMatch(values, anySlice)
+}
