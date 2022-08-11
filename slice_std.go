@@ -65,6 +65,24 @@ func Uniq[T comparable](values []T) []T {
 	return result
 }
 
+// UniqBy remove duplicated elements from values, based on given func.
+func UniqBy[V any, T comparable](values []V, f func(V) T) []V {
+	result := make([]V, 0, len(values))
+	for _, v := range values {
+		idx := 0
+		for _, vv := range result {
+			if f(v) == f(vv) {
+				break
+			}
+			idx++
+		}
+		if idx == len(result) {
+			result = append(result, v)
+		}
+	}
+	return result
+}
+
 // IndexOf find the index of v in values, return -1 if element not found.
 func IndexOf[T comparable](values []T, v T) int {
 	for i, vv := range values {

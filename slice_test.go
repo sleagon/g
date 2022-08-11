@@ -133,3 +133,10 @@ func TestAssertSlice(t *testing.T) {
 
 	is.ElementsMatch(values, anySlice)
 }
+
+func TestUniqBy(t *testing.T) {
+	is := assert.New(t)
+
+	is.ElementsMatch([]int{1, 2}, UniqBy([]int{1, 2, 3, 4, 5}, func(v int) int { return v % 2 }))
+	is.ElementsMatch([]int{1, 2, 3}, UniqBy([]int{1, 2, 3, 2, 2, 1, 2, 3}, func(v int) int { return v * v }))
+}
