@@ -30,4 +30,8 @@ func TestSyncMap(t *testing.T) {
 		return true
 	})
 	assert.Equal(t, 10, size)
+
+	snapshot := mp.Snapshot()
+
+	assert.Equal(t, 10, len(snapshot))
 }

@@ -38,6 +38,16 @@ func (m *SyncMap[K, V]) Range(f func(key K, value V) bool) {
 	})
 }
 
+// Snapshot returns a copy of the map based on Range method.
+func (m *SyncMap[K, V]) Snapshot() map[K]V {
+	snapshot := make(map[K]V)
+	m.Range(func(key K, value V) bool {
+		snapshot[key] = value
+		return true
+	})
+	return snapshot
+}
+
 func NewSyncMap[K comparable, V any]() SyncMap[K, V] {
 	return SyncMap[K, V]{
 		data: sync.Map{},
