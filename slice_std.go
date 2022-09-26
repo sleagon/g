@@ -31,6 +31,20 @@ func Reduce[F any, T any](values []F, f func(T, F, int) T) T {
 	return result
 }
 
+// ReduceE is a reduce operator, like js's reduce, fail-fast if f return error.
+func ReduceE[F any, T any](values []F, f func(T, F, int) (T, error)) (T, error) {
+	var result T
+	for i, v := range values {
+		t, err := f(result, v, i)
+		if err != nil {
+			var zero T
+			return zero, err
+		}
+		result = t
+	}
+	return result, nil
+}
+
 // Partition is a partition operator, like java's partition.
 func Partition[T any](values []T, size int) [][]T {
 

@@ -47,6 +47,23 @@ func TestReduce(t *testing.T) {
 	)
 }
 
+func TestReduceE(t *testing.T) {
+	is := assert.New(t)
+
+	r, e := ReduceE([]int{1, 2, 3}, func(sum int, v int, _ int) (int, error) { return sum + v, nil })
+	is.NoError(e)
+	is.Equal(6, r)
+
+	r, e = ReduceE([]int{1, 2, 3}, func(sum int, v int, _ int) (int, error) {
+		if v == 2 {
+			return 0, errors.New("error")
+		}
+		return sum + v, nil
+	})
+	is.Error(e)
+	is.Equal(0, r)
+}
+
 func TestPartition(t *testing.T) {
 	is := assert.New(t)
 
