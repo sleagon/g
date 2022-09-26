@@ -1,6 +1,7 @@
 package g
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -10,6 +11,24 @@ func TestMap(t *testing.T) {
 	is := assert.New(t)
 
 	is.ElementsMatch([]int{2, 3, 4}, Map([]int{1, 2, 3}, func(i int, _ int) int { return i + 1 }))
+}
+
+func TestMapE(t *testing.T) {
+	is := assert.New(t)
+
+	r, e := MapE([]int{1, 2, 3}, func(i int, _ int) (int, error) { return i + 1, nil })
+	is.NoError(e)
+	is.ElementsMatch([]int{2, 3, 4}, r)
+
+	r, e = MapE([]int{1, 2, 3}, func(i int, _ int) (int, error) {
+		if i == 2 {
+			return 0, errors.New("error")
+		}
+		return i + 1, nil
+	})
+
+	is.Error(e)
+	is.Nil(r)
 }
 
 func TestReduce(t *testing.T) {

@@ -9,6 +9,19 @@ func Map[F any, T any](values []F, f func(F, int) T) []T {
 	return result
 }
 
+// Map is a map operator, like js/java's map, fail-fast if f return error.
+func MapE[F any, T any](values []F, f func(F, int) (T, error)) ([]T, error) {
+	result := make([]T, 0, len(values))
+	for i, v := range values {
+		t, err := f(v, i)
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, t)
+	}
+	return result, nil
+}
+
 // Reduce is a reduce operator, like js's reduce.
 func Reduce[F any, T any](values []F, f func(T, F, int) T) T {
 	var result T
