@@ -98,3 +98,22 @@ func TestPutAll(t *testing.T) {
 	PutAll(m, map[string]int{"c": 3, "d": 4})
 	is.Equal(map[string]int{"a": 1, "b": 2, "c": 3, "d": 4}, m)
 }
+
+// copy test copy map
+func TestCopy(t *testing.T) {
+	is := assert.New(t)
+
+	m := map[string]int{"a": 1, "b": 2}
+	m2 := CopyMap(m)
+	is.Equal(map[string]int{"a": 1, "b": 2}, m2)
+
+	// modify m2
+	m2["c"] = 3
+	is.Equal(map[string]int{"a": 1, "b": 2, "c": 3}, m2)
+	is.Equal(map[string]int{"a": 1, "b": 2}, m)
+
+	// modify m
+	m["d"] = 4
+	is.Equal(map[string]int{"a": 1, "b": 2, "d": 4}, m)
+	is.Equal(map[string]int{"a": 1, "b": 2, "c": 3}, m2)
+}

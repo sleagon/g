@@ -188,3 +188,10 @@ func AnySlice[T any](values []T) []any {
 
 	return result
 }
+
+// CopySlice copy slice.
+func CopySlice[T any](values []T) []T {
+	result := make([]T, len(values))
+	copy(result, values)
+	return result
+}

@@ -156,3 +156,9 @@ func PutAll[K comparable, V any](target map[K]V, elements map[K]V) map[K]V {
 	}
 	return target
 }
+
+// CopyMap returns a copy of the map.
+func CopyMap[K comparable, V any](values map[K]V) map[K]V {
+	result := make(map[K]V, len(values))
+	return PutAll(result, values)
+}

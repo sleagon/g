@@ -140,3 +140,23 @@ func TestUniqBy(t *testing.T) {
 	is.ElementsMatch([]int{1, 2}, UniqBy([]int{1, 2, 3, 4, 5}, func(v int) int { return v % 2 }))
 	is.ElementsMatch([]int{1, 2, 3}, UniqBy([]int{1, 2, 3, 2, 2, 1, 2, 3}, func(v int) int { return v * v }))
 }
+
+// test copy slice
+func TestCopySlice(t *testing.T) {
+	is := assert.New(t)
+
+	slice := []int{1, 2, 3}
+	copySlice := CopySlice(slice)
+
+	is.ElementsMatch(slice, copySlice)
+
+	// modify copy slice
+	copySlice[0] = 4
+	is.ElementsMatch([]int{4, 2, 3}, copySlice)
+	is.ElementsMatch([]int{1, 2, 3}, slice)
+
+	// modify slice
+	slice[0] = 5
+	is.ElementsMatch([]int{5, 2, 3}, slice)
+	is.ElementsMatch([]int{4, 2, 3}, copySlice)
+}
