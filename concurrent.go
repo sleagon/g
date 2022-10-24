@@ -10,9 +10,7 @@ type resultType[T any] struct {
 	idx   int
 }
 
-type Go0Func[T any] func(context.Context) (T, error)
-
-func Go0[T any](funcs ...Go0Func[T]) func(context.Context) ([]T, error) {
+func Go0[T any](funcs ...func(context.Context) (T, error)) func(context.Context) ([]T, error) {
 
 	return func(ctx context.Context) ([]T, error) {
 
@@ -20,7 +18,7 @@ func Go0[T any](funcs ...Go0Func[T]) func(context.Context) ([]T, error) {
 
 		for i := range funcs {
 
-			go func(idx int, vf Go0Func[T]) {
+			go func(idx int, vf func(context.Context) (T, error)) {
 				defer func() {
 					if err := recover(); err != nil {
 						ec <- fmt.Errorf("panic: %v", err)
@@ -52,14 +50,12 @@ func Go0[T any](funcs ...Go0Func[T]) func(context.Context) ([]T, error) {
 	}
 }
 
-func Go[S any, T any](funcs ...Go1Func[S, T]) func(context.Context, []S) ([]T, error) {
+func Go[S any, T any](funcs ...func(context.Context, S) (T, error)) func(context.Context, []S) ([]T, error) {
 	return Go1(funcs...)
 
 }
 
-type Go1Func[S any, T any] func(context.Context, S) (T, error)
-
-func Go1[S any, T any](funcs ...Go1Func[S, T]) func(context.Context, []S) ([]T, error) {
+func Go1[S any, T any](funcs ...func(context.Context, S) (T, error)) func(context.Context, []S) ([]T, error) {
 
 	return func(ctx context.Context, values []S) ([]T, error) {
 
@@ -67,7 +63,7 @@ func Go1[S any, T any](funcs ...Go1Func[S, T]) func(context.Context, []S) ([]T, 
 
 		for i := range funcs {
 
-			go func(idx int, vi S, vf Go1Func[S, T]) {
+			go func(idx int, vi S, vf func(context.Context, S) (T, error)) {
 				defer func() {
 					if err := recover(); err != nil {
 						ec <- fmt.Errorf("panic: %v", err)
@@ -100,9 +96,8 @@ func Go1[S any, T any](funcs ...Go1Func[S, T]) func(context.Context, []S) ([]T, 
 
 }
 
-type Go2Func[S1 any, S2 any, T any] func(context.Context, S1, S2) (T, error)
-
-func Go2[S1 any, S2 any, T any](funcs ...Go2Func[S1, S2, T]) func(context.Context, []S1, []S2) ([]T, error) {
+func Go2[S1 any, S2 any, T any](funcs ...func(context.Context, S1, S2) (T, error)) func(
+	context.Context, []S1, []S2) ([]T, error) {
 
 	return func(ctx context.Context, values1 []S1, values2 []S2) ([]T, error) {
 
@@ -114,7 +109,7 @@ func Go2[S1 any, S2 any, T any](funcs ...Go2Func[S1, S2, T]) func(context.Contex
 
 		for i := range funcs {
 
-			go func(idx int, vi1 S1, vi2 S2, vf Go2Func[S1, S2, T]) {
+			go func(idx int, vi1 S1, vi2 S2, vf func(context.Context, S1, S2) (T, error)) {
 				defer func() {
 					if err := recover(); err != nil {
 						ec <- fmt.Errorf("panic: %v", err)
@@ -146,9 +141,8 @@ func Go2[S1 any, S2 any, T any](funcs ...Go2Func[S1, S2, T]) func(context.Contex
 	}
 }
 
-type Go3Func[S1 any, S2 any, S3 any, T any] func(context.Context, S1, S2, S3) (T, error)
-
-func Go3[S1 any, S2 any, S3 any, T any](funcs ...Go3Func[S1, S2, S3, T]) func(context.Context, []S1, []S2, []S3) ([]T, error) {
+func Go3[S1 any, S2 any, S3 any, T any](funcs ...func(context.Context, S1, S2, S3) (T, error)) func(
+	context.Context, []S1, []S2, []S3) ([]T, error) {
 
 	return func(ctx context.Context, values1 []S1, values2 []S2, values3 []S3) ([]T, error) {
 
@@ -160,7 +154,7 @@ func Go3[S1 any, S2 any, S3 any, T any](funcs ...Go3Func[S1, S2, S3, T]) func(co
 
 		for i := range funcs {
 
-			go func(idx int, vi1 S1, vi2 S2, vi3 S3, vf Go3Func[S1, S2, S3, T]) {
+			go func(idx int, vi1 S1, vi2 S2, vi3 S3, vf func(context.Context, S1, S2, S3) (T, error)) {
 				defer func() {
 					if err := recover(); err != nil {
 						ec <- fmt.Errorf("panic: %v", err)
