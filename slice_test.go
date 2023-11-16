@@ -160,3 +160,18 @@ func TestCopySlice(t *testing.T) {
 	is.ElementsMatch([]int{5, 2, 3}, slice)
 	is.ElementsMatch([]int{4, 2, 3}, copySlice)
 }
+
+func TestRepeat(t *testing.T) {
+
+	is := assert.New(t)
+
+	{
+		v := "name"
+		vs := Repeat(v, 100)
+
+		is.Equal(100, len(vs))
+		for i := 0; i < 100; i++ {
+			is.Equal(v, vs[i])
+		}
+	}
+}

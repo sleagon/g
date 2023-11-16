@@ -195,3 +195,12 @@ func CopySlice[T any](values []T) []T {
 	copy(result, values)
 	return result
 }
+
+func Repeat[T any](v T, n int) []T {
+	result := make([]T, n)
+	for i := 0; i < n; i++ {
+		result[i] = v
+	}
+
+	return result
+}
